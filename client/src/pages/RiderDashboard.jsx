@@ -154,7 +154,8 @@ const RiderDashboard = () => {
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header
         title="Captain Dashboard"
-        showBack={false}
+        showBack={true}
+        onBack={() => navigate('/role')}
         showHelp={true}
         rightElement={
           <button

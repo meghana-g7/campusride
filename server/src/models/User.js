@@ -52,6 +52,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ""
   },
+  idCardImage: {
+    type: String,
+    default: ""
+  },
+  faceImage: {
+    type: String,
+    default: ""
+  },
+  isFaceVerified: {
+    type: Boolean,
+    default: false
+  },
   createdAt: {
     type: Date,
     default: Date.now

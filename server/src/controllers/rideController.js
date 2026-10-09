@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Ride = require("../models/Ride");
 const DriverProfile = require("../models/DriverProfile");
 const User = require("../models/User");
@@ -254,7 +255,7 @@ const getRideById = async (req, res) => {
     const { id } = req.params;
     let ride = null;
 
-    if (isMongoConnected()) {
+    if (isMongoConnected() && mongoose.Types.ObjectId.isValid(id)) {
       ride = await Ride.findById(id).lean();
     }
     if (!ride) {
@@ -268,7 +269,7 @@ const getRideById = async (req, res) => {
     // Populate driver info if needed
     if (!ride.driverDetails && ride.driverId) {
       let driver = null;
-      if (isMongoConnected()) {
+      if (isMongoConnected() && mongoose.Types.ObjectId.isValid(ride.driverId)) {
         driver = await DriverProfile.findById(ride.driverId).lean();
       }
       if (!driver) {
@@ -301,7 +302,7 @@ const updateRideStatus = async (req, res) => {
     const { status, enteredPin, paymentStatus, paymentMethod } = req.body;
 
     let ride = null;
-    if (isMongoConnected()) {
+    if (isMongoConnected() && mongoose.Types.ObjectId.isValid(id)) {
       ride = await Ride.findById(id);
     }
     if (!ride) {
@@ -341,7 +342,7 @@ const updateRideStatus = async (req, res) => {
       // Reset driver to Available
       const driverIdStr = ride.driverId?.toString() || ride.driverId;
       if (driverIdStr) {
-        if (isMongoConnected()) {
+        if (isMongoConnected() && mongoose.Types.ObjectId.isValid(driverIdStr)) {
           await DriverProfile.findByIdAndUpdate(driverIdStr, {
             availability: "Available",
             $inc: { completedRides: 1 }
@@ -357,7 +358,7 @@ const updateRideStatus = async (req, res) => {
       updates.status = "CANCELLED";
       const driverIdStr = ride.driverId?.toString() || ride.driverId;
       if (driverIdStr) {
-        if (isMongoConnected()) {
+        if (isMongoConnected() && mongoose.Types.ObjectId.isValid(driverIdStr)) {
           await DriverProfile.findByIdAndUpdate(driverIdStr, { availability: "Available" });
         }
         mockStore.updateDriverAvailability(driverIdStr, "Available");
@@ -370,7 +371,7 @@ const updateRideStatus = async (req, res) => {
     if (paymentMethod) updates.paymentMethod = paymentMethod;
 
     let updatedRide = null;
-    if (isMongoConnected()) {
+    if (isMongoConnected() && mongoose.Types.ObjectId.isValid(id)) {
       updatedRide = await Ride.findByIdAndUpdate(id, updates, { new: true }).lean();
     }
     const mockUpdated = mockStore.updateRide(id, updates);
@@ -409,7 +410,7 @@ const submitFeedback = async (req, res) => {
     }
 
     let ride = null;
-    if (isMongoConnected()) {
+    if (isMongoConnected() && mongoose.Types.ObjectId.isValid(id)) {
       ride = await Ride.findById(id);
     }
     if (!ride) {
@@ -424,7 +425,7 @@ const submitFeedback = async (req, res) => {
 
     // Get current driver profile
     let driver = null;
-    if (isMongoConnected()) {
+    if (isMongoConnected() && mongoose.Types.ObjectId.isValid(driverIdStr)) {
       driver = await DriverProfile.findById(driverIdStr);
     }
     if (!driver) {
@@ -443,23 +444,25 @@ const submitFeedback = async (req, res) => {
 
     // Save feedback & update driver rating
     if (isMongoConnected()) {
-      await Feedback.create({
-        rideId: id,
-        passengerId,
-        driverId: driverIdStr,
-        rating: numRating,
-        comment: comment || ""
-      });
-
-      await Ride.findByIdAndUpdate(id, {
-        rating: numRating,
-        feedbackComment: comment || ""
-      });
-
-      if (driver) {
-        await DriverProfile.findByIdAndUpdate(driverIdStr, {
-          rating: ratingUpdate.weightedRating
+      if (mongoose.Types.ObjectId.isValid(id) && mongoose.Types.ObjectId.isValid(driverIdStr)) {
+        await Feedback.create({
+          rideId: id,
+          passengerId,
+          driverId: driverIdStr,
+          rating: numRating,
+          comment: comment || ""
         });
+
+        await Ride.findByIdAndUpdate(id, {
+          rating: numRating,
+          feedbackComment: comment || ""
+        });
+
+        if (driver) {
+          await DriverProfile.findByIdAndUpdate(driverIdStr, {
+            rating: ratingUpdate.weightedRating
+          });
+        }
       }
     }
 

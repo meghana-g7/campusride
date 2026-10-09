@@ -34,7 +34,7 @@ const ProfileScreen = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header title="My Profile" showBack={false} showHelp={true} />
+      <Header title="My Profile" showBack={true} showHelp={true} />
 
       <div className="flex-1 px-5 py-6 space-y-4 overflow-y-auto">
         {/* User Card (Clean Initials, No Cartoon Avatars) */}
@@ -163,3 +163,4 @@ const ProfileScreen = () => {
 };
 
 export default ProfileScreen;
+

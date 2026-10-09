@@ -24,7 +24,10 @@ const register = async (req, res) => {
       password,
       confirmPassword,
       role,
-      gender
+      gender,
+      idCardImage,
+      faceImage,
+      isFaceVerified
     } = req.body;
 
     if (!name || !phone || !email || !usn || !password) {
@@ -76,7 +79,10 @@ const register = async (req, res) => {
         passwordHash,
         role: role || "passenger",
         gender: gender || "female",
-        profileImage: ""
+        profileImage: faceImage || "",
+        idCardImage: idCardImage || "",
+        faceImage: faceImage || "",
+        isFaceVerified: !!isFaceVerified
       });
 
       // Also mirror to mock store for fast retrieval
@@ -90,7 +96,10 @@ const register = async (req, res) => {
         usn: user.usn,
         passwordHash: user.passwordHash,
         role: user.role,
-        gender: user.gender
+        gender: user.gender,
+        idCardImage: user.idCardImage,
+        faceImage: user.faceImage,
+        isFaceVerified: user.isFaceVerified
       });
 
       const token = generateToken(user._id, user.email, user.role);
@@ -108,7 +117,10 @@ const register = async (req, res) => {
           classDepartment: user.classDepartment,
           usn: user.usn,
           role: user.role,
-          gender: user.gender
+          gender: user.gender,
+          idCardImage: user.idCardImage,
+          faceImage: user.faceImage,
+          isFaceVerified: user.isFaceVerified
         }
       });
     } else {
@@ -130,7 +142,10 @@ const register = async (req, res) => {
         usn: cleanUsn,
         passwordHash,
         role: role || "passenger",
-        gender: gender || "female"
+        gender: gender || "female",
+        idCardImage: idCardImage || "",
+        faceImage: faceImage || "",
+        isFaceVerified: !!isFaceVerified
       });
 
       const token = generateToken(newUser._id, newUser.email, newUser.role);
@@ -148,7 +163,10 @@ const register = async (req, res) => {
           classDepartment: newUser.classDepartment,
           usn: newUser.usn,
           role: newUser.role,
-          gender: newUser.gender
+          gender: newUser.gender,
+          idCardImage: newUser.idCardImage,
+          faceImage: newUser.faceImage,
+          isFaceVerified: newUser.isFaceVerified
         }
       });
     }
@@ -223,7 +241,10 @@ const login = async (req, res) => {
         classDepartment: user.classDepartment || "6th Sem, CSE",
         usn: user.usn,
         role: user.role,
-        gender: user.gender
+        gender: user.gender,
+        idCardImage: user.idCardImage || "",
+        faceImage: user.faceImage || "",
+        isFaceVerified: !!user.isFaceVerified
       },
       driverProfile: driverProfile || null
     });

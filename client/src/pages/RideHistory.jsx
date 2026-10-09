@@ -27,7 +27,7 @@ const RideHistory = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header title="Ride History" showBack={false} showHelp={true} />
+      <Header title="Ride History" showBack={true} showHelp={true} />
 
       <div className="flex-1 px-5 py-4 overflow-y-auto">
         <div className="flex items-center justify-between mb-4">
@@ -160,3 +160,4 @@ const RideHistory = () => {
 };
 
 export default RideHistory;
+

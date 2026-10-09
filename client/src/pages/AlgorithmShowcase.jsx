@@ -129,7 +129,7 @@ const AlgorithmShowcase = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header title="Academic Algorithms" showBack={false} showHelp={true} />
+      <Header title="Academic Algorithms" showBack={true} showHelp={true} />
 
       <div className="flex-1 px-5 py-4 overflow-y-auto">
         <div className="mb-4">
@@ -248,3 +248,4 @@ const AlgorithmShowcase = () => {
 };
 
 export default AlgorithmShowcase;
+

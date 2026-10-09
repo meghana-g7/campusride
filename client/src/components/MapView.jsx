@@ -5,29 +5,46 @@ import L from 'leaflet';
 const createSvgIcon = (color, text, type = 'pin') => {
   let svg = '';
   if (type === 'bike') {
-    svg = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="${color}" stroke="#ffffff" stroke-width="1.5"><circle cx="12" cy="12" r="11" fill="${color}"/><path fill="#ffffff" d="M15.5 5.5c-.8 0-1.5.7-1.5 1.5s.7 1.5 1.5 1.5 1.5-.7 1.5-1.5-.7-1.5-1.5-1.5zm-8 4C6.1 9.5 5 10.6 5 12s1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5-1.1-2.5-2.5-2.5zm9 0c-1.4 0-2.5 1.1-2.5 2.5s1.1 2.5 2.5 2.5 2.5-1.1 2.5-2.5-1.1-2.5-2.5-2.5z"/></svg>`;
+    svg = `<div style="position:relative; width:44px; height:44px; display:flex; align-items:center; justify-content:center;">
+      <div style="position:absolute; width:44px; height:44px; border-radius:50%; background:rgba(37,99,235,0.25); animation:ping 1.5s cubic-bezier(0,0,0.2,1) infinite;"></div>
+      <div style="position:relative; width:34px; height:34px; border-radius:50%; background:#2563EB; border:3px solid #ffffff; box-shadow:0 4px 10px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/>
+        </svg>
+      </div>
+    </div>`;
   } else if (type === 'car') {
-    svg = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="${color}" stroke="#ffffff" stroke-width="1.5"><circle cx="12" cy="12" r="11" fill="${color}"/><path fill="#ffffff" d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>`;
+    svg = `<div style="position:relative; width:44px; height:44px; display:flex; align-items:center; justify-content:center;">
+      <div style="position:absolute; width:44px; height:44px; border-radius:50%; background:rgba(37,99,235,0.25); animation:ping 1.5s cubic-bezier(0,0,0.2,1) infinite;"></div>
+      <div style="position:relative; width:34px; height:34px; border-radius:50%; background:#1E293B; border:3px solid #ffffff; box-shadow:0 4px 10px rgba(0,0,0,0.3); display:flex; align-items:center; justify-content:center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9C2.1 11.2 2 11.6 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
+        </svg>
+      </div>
+    </div>`;
   } else {
-    svg = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="42" viewBox="0 0 32 42">
-      <path fill="${color}" stroke="#ffffff" stroke-width="2" d="M16 0C7.2 0 0 7.2 0 16c0 12 16 26 16 26s16-14 16-26c0-8.8-7.2-16-16-16z"/>
-      <circle cx="16" cy="16" r="6" fill="#ffffff"/>
-    </svg>`;
+    // Elegant Google Maps Pin
+    svg = `<div style="display:flex; flex-direction:column; align-items:center;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="30" height="38" viewBox="0 0 30 38">
+        <path fill="${color}" stroke="#ffffff" stroke-width="2" d="M15 0C6.7 0 0 6.7 0 15c0 10.5 15 23 15 23s15-12.5 15-23c0-8.3-6.7-15-15-15z"/>
+        <circle cx="15" cy="15" r="5.5" fill="#ffffff"/>
+      </svg>
+    </div>`;
   }
 
   return L.divIcon({
     className: 'custom-leaflet-icon',
     html: `<div style="display:flex; flex-direction:column; align-items:center;">
              ${svg}
-             ${text ? `<span style="background:rgba(0,0,0,0.75); color:white; font-size:10px; font-weight:bold; padding:2px 6px; border-radius:4px; margin-top:2px; white-space:nowrap;">${text}</span>` : ''}
+             ${text ? `<span style="background:rgba(15,23,42,0.85); color:white; font-size:10px; font-weight:800; padding:2px 7px; border-radius:6px; margin-top:-2px; white-space:nowrap; box-shadow:0 2px 4px rgba(0,0,0,0.2);">${text}</span>` : ''}
            </div>`,
-    iconSize: [36, 46],
-    iconAnchor: [18, 42]
+    iconSize: [44, 52],
+    iconAnchor: [22, 42]
   });
 };
 
 const MapView = ({
-  center = [13.0805, 77.5458],
+  center = [13.0805, 77.5458], // Sambhram Institute of Technology (SAIT)
   zoom = 14,
   pickupCoords,
   dropCoords,
@@ -39,12 +56,13 @@ const MapView = ({
   const mapContainerRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const layerGroupRef = useRef(null);
+  const driverMarkerRef = useRef(null);
 
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
     if (!mapInstanceRef.current) {
-      // Initialize Leaflet map
+      // Initialize Leaflet map with smooth panning
       const map = L.map(mapContainerRef.current, {
         center,
         zoom,
@@ -52,11 +70,24 @@ const MapView = ({
         attributionControl: false
       });
 
-      // CartoDB Positron / OSM style clean tile layer
-      L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      // Google Maps Standard Roadmap Vector Tiles (Direct Google Maps street data)
+      const googleRoadmap = L.tileLayer('https://mt{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['0', '1', '2', '3'],
+        attribution: 'Map data © Google Maps'
+      });
+
+      // Fallback clean tile layer in case of network restriction
+      const cartoFallback = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
         maxZoom: 19,
         subdomains: 'abcd'
-      }).addTo(map);
+      });
+
+      googleRoadmap.on('tileerror', () => {
+        cartoFallback.addTo(map);
+      });
+
+      googleRoadmap.addTo(map);
 
       layerGroupRef.current = L.layerGroup().addTo(map);
       mapInstanceRef.current = map;
@@ -68,65 +99,70 @@ const MapView = ({
 
     const bounds = [];
 
-    // Add Pickup Marker
+    // Add Pickup Marker (Green)
     if (pickupCoords && pickupCoords.lat && pickupCoords.lng) {
       const pLatLng = [pickupCoords.lat, pickupCoords.lng];
-      const marker = L.marker(pLatLng, {
-        icon: createSvgIcon('#10B981', 'Pickup', 'pin')
+      L.marker(pLatLng, {
+        icon: createSvgIcon('#10B981', 'Pickup (SAIT)', 'pin')
       }).addTo(layerGroup);
       bounds.push(pLatLng);
     }
 
-    // Add Drop Marker
+    // Add Drop Marker (Red)
     if (dropCoords && dropCoords.lat && dropCoords.lng) {
       const dLatLng = [dropCoords.lat, dropCoords.lng];
-      const marker = L.marker(dLatLng, {
-        icon: createSvgIcon('#EF4444', 'Drop', 'pin')
+      L.marker(dLatLng, {
+        icon: createSvgIcon('#EF4444', 'Drop-off', 'pin')
       }).addTo(layerGroup);
       bounds.push(dLatLng);
     }
 
-    // Add Driver Marker
+    // Add or Update Driver Live Moving Marker (Blue Bike/Car with live pulse)
     if (driverCoords && driverCoords.lat && driverCoords.lng) {
       const drLatLng = [driverCoords.lat, driverCoords.lng];
       const iconType = driverType.toLowerCase() === 'car' ? 'car' : 'bike';
-      L.marker(drLatLng, {
-        icon: createSvgIcon('#2563EB', 'Captain', iconType)
+      const driverMarker = L.marker(drLatLng, {
+        icon: createSvgIcon('#2563EB', 'Live Captain', iconType),
+        zIndexOffset: 1000
       }).addTo(layerGroup);
+      driverMarkerRef.current = driverMarker;
       bounds.push(drLatLng);
     }
 
-    // Route polyline
+    // Google Maps Navigation Polyline Route
     if (showRoute && pickupCoords && dropCoords) {
+      // Waypoints for realistic road curve between SAIT and Destination
+      const midLat = (pickupCoords.lat + dropCoords.lat) / 2;
+      const midLng = (pickupCoords.lng + dropCoords.lng) / 2;
+
       const latlngs = [
         [pickupCoords.lat, pickupCoords.lng],
-        // Intermediate waypoint for realistic curved road display
-        [
-          (pickupCoords.lat + dropCoords.lat) / 2 + 0.002,
-          (pickupCoords.lng + dropCoords.lng) / 2 - 0.003
-        ],
+        [midLat + 0.0018, midLng - 0.0022],
+        [midLat - 0.0008, midLng + 0.0012],
         [dropCoords.lat, dropCoords.lng]
       ];
 
+      // Route Outer Border (Google Maps dark blue casing)
       L.polyline(latlngs, {
-        color: '#3B82F6',
-        weight: 5,
-        opacity: 0.85,
+        color: '#1D4ED8',
+        weight: 7,
+        opacity: 0.95,
         lineCap: 'round',
-        dashArray: '1, 8'
+        lineJoin: 'round'
       }).addTo(layerGroup);
 
-      // Main solid line
+      // Route Inner Fill (Google Maps vibrant cyan/blue line)
       L.polyline(latlngs, {
-        color: '#2563EB',
+        color: '#60A5FA',
         weight: 4,
-        opacity: 0.9,
-        lineCap: 'round'
+        opacity: 1,
+        lineCap: 'round',
+        lineJoin: 'round'
       }).addTo(layerGroup);
     }
 
     if (bounds.length > 1) {
-      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 15 });
+      map.fitBounds(bounds, { padding: [45, 45], maxZoom: 16 });
     } else if (bounds.length === 1) {
       map.setView(bounds[0], zoom);
     } else {
